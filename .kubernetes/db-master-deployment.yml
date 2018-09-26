@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: db-master
+  labels:
+    app: db-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-master
+  template:
+    metadata:
+      labels:
+        app: db-master
+    spec:
+      containers:
+        - image: mysql:5
+          name: db-master
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api
+                  key: database_password
+          ports:
+            - containerPort: 3306
+              name: db-master
+          volumeMounts:
+            - name: nfs-pv
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: nfs-pv
+          persistentVolumeClaim:
+            claimName: nfs-pvc

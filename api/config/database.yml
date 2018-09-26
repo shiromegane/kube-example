@@ -1,0 +1,26 @@
+default: &default
+  adapter: mysql2
+  collation: <%= ENV['DATABASE_COLLATION'].presence || 'utf8mb4_bin' %>
+  encoding: <%= ENV['DATABASE_ENCODING'].presence || 'utf8mb4' %>
+  charset: <%= ENV['DATABASE_CHARSET'].presence || 'utf8mb4' %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV['DATABASE_HOST'].presence || 'localhost' %>
+  port: <%= ENV['DATABASE_PORT'].presence || 3306 %>
+  username: <%= ENV['DATABASE_USERNAME'].presence || 'root' %>
+  password: <%= ENV['DATABASE_PASSWORD'].presence || 'password' %>
+
+test:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'].presence || 'test' %>
+
+development:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'].presence || 'development' %>
+
+staging:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'].presence || 'staging' %>
+
+production:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'].presence || 'production' %>

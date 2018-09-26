@@ -1,23 +1,21 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: api
-  labels:
-    app: api
+  name: deploy-tasks
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: api
   template:
     metadata:
+      name: deploy-tasks
       labels:
-        app: api
+        name: deploy-tasks
     spec:
+      nodeSelector:
+        cloud.google.com/gke-nodepool: default-pool
+      restartPolicy: Never
       containers:
-        - image: api:v1
-          name: api
-          imagePullPolicy: IfNotPresent
+        - name: deploy-tasks-runner
+          image: $RAILS_IMAGE
+          command: ["/app/script/deploy-tasks.sh"]
           env:
             - name: RAILS_ENV
               value: "production"
@@ -39,11 +37,4 @@ spec:
                   name: api
                   key: secret_key_base
             - name: DATABASE_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: api
-                  key: database_port
-          ports:
-            - containerPort: 3000
-              name: api
-          command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+              value: "3306"

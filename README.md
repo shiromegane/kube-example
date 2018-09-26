@@ -1,5 +1,40 @@
 # How to use
 
+## 下ごしらえ
+### 1.APIモードでRails new
+#### 1.1.Gemfileを設置
+```
+mkdir api && cd api
+お好みのGemfileを設置
+```
+
+#### 1.2.Rails new
+```
+bundle exec rails new . -d mysql -f --api -BGSJT --skip-gemfile --skip-coffee --skip-turbolinks --skip-system-test
+```
+
+##### オプションについて
+- -d mysql
+  - MySQLを使用する
+- -f
+  - 既存ファイル上書きする
+- --api
+  - APIモードでプロジェクト生成
+- -BGSJT
+  - bundle installを実行しない
+  - .gitignoreを生成しない
+  - Sprocketsを無効
+  - JavaScriptを組み込まない
+  - テストを組み込まない
+- --skip-gemfile
+  - Gemfileを生成しない
+- --skip-coffee
+  - CoffeeScriptを使用しない
+- --skip-turbolinks
+  - turbolinksを無効
+- --skip-system-test
+  - system testを無効
+
 ## 0.前提条件
 - minikubeがインストール、起動されていること
 

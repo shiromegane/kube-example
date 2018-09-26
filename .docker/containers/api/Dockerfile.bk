@@ -1,8 +1,6 @@
 FROM ruby:alpine
 MAINTAINER Shiromegane
 
-ARG BUNDLE_OPTIONS
-
 ENV TZ=Asia/Tokyo \
     LANG=C.UTF-8 \
     ROOT_PATH=/api \
@@ -41,5 +39,3 @@ RUN apk upgrade --no-cache && apk add --update --no-cache \
     rm -rf /usr/bin/mysql*
 
 WORKDIR $ROOT_PATH
-RUN bundle install ${BUNDLE_OPTIONS}
-EXPOSE  3000
