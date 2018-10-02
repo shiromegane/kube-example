@@ -1,11 +1,11 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api
   labels:
     app: api
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: api
@@ -15,9 +15,13 @@ spec:
         app: api
     spec:
       containers:
-        - image: api:v1
-          name: api
+        - name: api
+          image: api:1
           imagePullPolicy: IfNotPresent
+          ports:
+            - name: api
+              containerPort: 3000
+          command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
           env:
             - name: RAILS_ENV
               value: "production"
@@ -43,7 +47,3 @@ spec:
                 secretKeyRef:
                   name: api
                   key: database_port
-          ports:
-            - containerPort: 3000
-              name: api
-          command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]

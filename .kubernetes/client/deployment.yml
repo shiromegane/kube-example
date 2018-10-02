@@ -1,9 +1,14 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: client
+  labels:
+    app: client
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: client
   template:
     metadata:
       labels:
@@ -14,11 +19,12 @@ spec:
           image: client:1
           imagePullPolicy: IfNotPresent
           ports:
-          - containerPort: 8080
+            - name: client
+              containerPort: 8080
           volumeMounts:
           - name: client-root
             mountPath: /client
       volumes:
-      - name: client-root
-        hostPath:
+        - name: client-root
+          hostPath:
           path: /var/www/kubbe-example/client

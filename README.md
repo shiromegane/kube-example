@@ -40,9 +40,13 @@ bundle exec rails new . -d mysql -f --api -BGSJT --skip-gemfile --skip-coffee --
 
 ## 1.minikubeのbuiltin Docker daemonを利用可能にする
 - ターミナル上で `eval $(minikube docker-env)`
-- やめるときは `eval "$(docker-machine env -u)"`
+  - やめるときは `eval "$(docker-machine env -u)"`
 
 ## 2.ローカルのコンテナをminikube上にビルドする
 1. Dockerfileがある場所に移動
-2. `docker build -t hogehoge:v1 .` を実行
+2. `docker build -t {コンテナ名}:{タグ} .` を実行
 
+## 3.Kubernetes上に反映する
+1. 各種ymlを作る
+2. ymlがあるディレクトリに移動
+2. `kubectl apply -f .` で全部反映する
