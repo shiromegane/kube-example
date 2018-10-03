@@ -52,20 +52,21 @@ bundle exec rails new . -d mysql -f --api -BGSJT --skip-gemfile --skip-coffee --
 
 ## 永続ボリューム
 ### 1.NFSボリューム用ディレクトリをホストOSに用意する
-1. `sudo mkdir /kube-pv`
-2. `sudo chmod 777 /kube-pv`
+1. `sudo mkdir -p /Users/Shared/Kubernetes/database`
+2. `sudo chmod 777 /Users/Shared/Kubernetes/database`
 3. `sudo vi /etc/exports`
 ```bash
-/kube-pv -mapall=nobody:wheel -network 192.168.99.0 -mask 255.255.255.0
+/Users/Shared/Kubernetes/database -mapall=nobody:wheel -network 192.168.99.0 -mask 255.255.255.0
 ```
 ### 2.ホストOSのNFSデーモン起動
 1. `sudo nfsd start`
 2. `sudo nfsd update`
 3. `sudo showmount -e` で確認
-### 3.minikubeからマウントする
+### 3.minikubeからマウントして確認してみる
 1. `minikube ssh`
 2. `sudo mkdir /pv`
-3. `sudo mount -t nfs 192.168.99.1:/kube-pv /pv`
+3. `sudo mount -t nfs 192.168.99.1:/Users/Shared/Kubernetes/database /pv`
+4. `sudo umount /pv`
 ### 4.PersistentVolumeを作る
 1. PersistentVolumeの設定ymlを作る
     - `.kubernetes/nfs-pv.yml` 参照

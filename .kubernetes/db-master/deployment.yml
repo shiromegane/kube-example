@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: example-app
   name: db-master
   labels:
     app: db-master
@@ -11,6 +12,7 @@ spec:
       app: db-master
   template:
     metadata:
+      namespace: example-app
       labels:
         app: db-master
     spec:
@@ -22,8 +24,8 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: api
-                  key: database_password
+                  name: api-environment
+                  key: DATABASE_PASSWORD
           ports:
             - containerPort: 3306
               name: db-master
@@ -33,4 +35,4 @@ spec:
       volumes:
         - name: db-data
           persistentVolumeClaim:
-            claimName: nfs-pvc
+            claimName: db-pvc

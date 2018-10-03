@@ -6,7 +6,7 @@ metadata:
   labels:
     app: api
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: api
@@ -30,26 +30,25 @@ spec:
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
-                  name: api-enviroment
+                  name: api-environment
                   key: DATABASE_HOST
             - name: DATABASE_PORT
               valueFrom:
                 secretKeyRef:
-                  name: api-enviroment
+                  name: api-environment
                   key: DATABASE_PORT
             - name: DATABASE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: api-enviroment
+                  name: api-environment
                   key: DATABASE_USERNAME
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: api-enviroment
+                  name: api-environment
                   key: DATABASE_PASSWORD
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
-                  name: api-enviroment
+                  name: api-environment
                   key: SECRET_KEY_BASE
-
