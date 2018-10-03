@@ -7,12 +7,10 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
-  # PersistentVolumeClaim を削除した時の動作
   persistentVolumeReclaimPolicy: Retain
   storageClassName: slow
   mountOptions:
     - hard
-  ## マウント先のNFS Serverの情報を記載
   nfs:
-    path: /share
     server: 192.168.99.1
+    path: /kube-pv

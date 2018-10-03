@@ -15,8 +15,9 @@ spec:
         app: db-master
     spec:
       containers:
-        - image: mysql:5
-          name: db-master
+        - name: db-master
+          image: mysql:5
+          imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -27,9 +28,9 @@ spec:
             - containerPort: 3306
               name: db-master
           volumeMounts:
-            - name: nfs-pv
+            - name: db-data
               mountPath: /var/lib/mysql
       volumes:
-        - name: nfs-pv
+        - name: db-data
           persistentVolumeClaim:
             claimName: nfs-pvc

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: example-app
   name: api
   labels:
     app: api
@@ -11,6 +12,7 @@ spec:
       app: api
   template:
     metadata:
+      namespace: example-app
       labels:
         app: api
     spec:
@@ -26,24 +28,28 @@ spec:
             - name: RAILS_ENV
               value: "production"
             - name: DATABASE_HOST
-              value: db-master
-            - name: DATABASE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: api
-                  key: database_user
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: api
-                  key: database_password
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: api
-                  key: secret_key_base
+                  name: api-enviroment
+                  key: DATABASE_HOST
             - name: DATABASE_PORT
               valueFrom:
                 secretKeyRef:
-                  name: api
-                  key: database_port
+                  name: api-enviroment
+                  key: DATABASE_PORT
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: api-enviroment
+                  key: DATABASE_USERNAME
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-enviroment
+                  key: DATABASE_PASSWORD
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: api-enviroment
+                  key: SECRET_KEY_BASE
+
